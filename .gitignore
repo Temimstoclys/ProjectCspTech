@@ -1,0 +1,58 @@
+# Ignorar diretórios de build do Maven
+/target/
+!/target/test-classes/
+!/target/classes/
+
+# Ignorar arquivos de configuração do IntelliJ IDEA
+.idea/
+*.iml
+
+# Ignorar arquivos de configuração do Eclipse
+/.project
+/.classpath
+/.settings/
+
+# Ignorar arquivos temporários e de sistema do OS
+.DS_Store
+Thumbs.db
+
+# Ignorar logs e arquivos de backup
+*.log
+*.bak
+*.swp
+
+# Ignorar arquivos de dependência local
+/.m2/
+
+# Ignorar arquivos de configuração do Maven
+pom.xml~
+
+# Ignorar diretórios de dependências baixadas (não versionadas)
+**/target/
+**/build/
+
+# Ignorar diretórios de testes de cobertura de código (ex: JaCoCo)
+**/.jacoco/
+**/.coverage/
+
+# Ignorar arquivos de configuração de testes de integração
+cucumber.properties
+
+# Ignorar arquivos de configuração do framework de automação
+config.properties
+
+# Ignorar arquivos de dependência do Selenium WebDriver
+selenium-server-standalone-*.jar
+chromedriver*
+geckodriver*
+
+# Ignorar arquivos específicos do JUnit
+test-logs/
+
+# Ignorar configurações temporárias de outros editores ou IDEs
+*.log
+*.bak
+*.swp
+
+# Ignorar configurações do Maven Wrapper
+.mvn/
