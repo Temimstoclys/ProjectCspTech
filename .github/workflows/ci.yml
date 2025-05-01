@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin' # ou 'zulu', ambos funcionam bem
+          distribution: 'temurin'
 
       - name: Rodar testes com Maven
         run: mvn clean test
