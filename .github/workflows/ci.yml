@@ -22,7 +22,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Passo 3: Verificar a versão do Maven
+      # Passo 3: Verificar versão do Maven
       - name: Verificar versão do Maven
         run: mvn --version
 
@@ -30,6 +30,6 @@ jobs:
       - name: Rodar testes com Maven
         run: mvn clean test
 
-      # Passo 5: Gerar relatório Cucumber (caso tenha Cucumber e queira um relatório)
-      - name: Gerar relatório Cucumber
-        run: mvn cucumber:report
+      # Passo 5: Gerar relatório de teste (apenas se necessário)
+      - name: Gerar relatório de testes Cucumber
+        run: mvn surefire-report:report

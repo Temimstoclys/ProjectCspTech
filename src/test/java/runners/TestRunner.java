@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
                 "junit:target/cucumber.xml"
         },
         monochrome = true
-        )
+                )
 
 public class TestRunner {
 
