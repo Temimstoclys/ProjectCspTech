@@ -1,5 +1,4 @@
 #language: pt
-#@login
   Funcionalidade: Efetuar Login
 
   Cenario:Login com sucesso
