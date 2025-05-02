@@ -33,5 +33,5 @@ jobs:
       - name: Install dependencies
         run: mvn clean install
 
-      - name: Run Cucumber tests
-        run: mvn -B package --file pom.xml
+      - name: Run Tests
+        run: mvn clear verify -Dtest=RunnerTest
