@@ -1,5 +1,4 @@
 # language: pt
-  @TestIntegration
   Funcionalidade: Account Management
 
   Contexto:

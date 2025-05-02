@@ -10,8 +10,9 @@ import io.cucumber.junit.CucumberOptions;
         glue = "steps",
         plugin = {"pretty", "html:target/cucumber-report.html"},
         monochrome = true,
-        tags = "@TestIntegration"
+        snippets = CucumberOptions.SnippetType.CAMELCASE
         )
-public class RunnerTest {
+
+public class RunTest {
 
 }
