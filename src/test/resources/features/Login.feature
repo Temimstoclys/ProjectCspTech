@@ -1,4 +1,5 @@
 #language: pt
+  @TestIntegration
   Funcionalidade: Efetuar Login
 
   Cenario:Login com sucesso

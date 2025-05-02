@@ -1,5 +1,6 @@
 # language: pt
-Funcionalidade: Account Management
+  @TestIntegration
+  Funcionalidade: Account Management
 
   Contexto:
     Dado que estou logado no sistema
