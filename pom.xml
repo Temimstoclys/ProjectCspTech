@@ -19,7 +19,7 @@
                 <version>3.1.2</version>
                 <configuration>
                     <includes>
-                        <include>**/*Test*.java</include>
+                        <include>**/RunnerTest.java</include>
                     </includes>
                 </configuration>
             </plugin>
