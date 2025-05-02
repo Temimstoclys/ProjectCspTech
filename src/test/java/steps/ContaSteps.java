@@ -2,9 +2,11 @@ package steps;
 
 import io.cucumber.java.pt.*;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import pages.ContaPage;
 import support.Base;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ContaSteps {
@@ -35,5 +37,12 @@ public class ContaSteps {
     public void DevoVerAMensagem(String mensagemEsperada) {
         String mensagemAtual = contaPage.obterMensagem();
         assertTrue("Mensagem esperada não foi exibida.", mensagemAtual.contains(mensagemEsperada));
+    }
+
+    @Entao("eu devo ver minha {string}")
+    public void EuDevVerMinhaConta(String account) {
+        WebElement accountExists = contaPage.validateAccount(account);
+        assertNotNull("A conta '" + account + "' não foi encontrada na página.", accountExists);
+        assertTrue("A conta '" + account + "' não está visível.", accountExists.isDisplayed());
     }
 }

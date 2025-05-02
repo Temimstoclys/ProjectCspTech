@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -71,4 +72,12 @@ public class ContaPage {
         botaoSalvar.click();
     }
 
+    public WebElement validateAccount(String accountName) {
+        try {
+            By accountLocator = By.xpath("//*[contains(text(),'" + accountName + "')]");
+            return driver.findElement(accountLocator);
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+    }
 }
