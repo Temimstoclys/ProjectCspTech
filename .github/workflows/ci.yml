@@ -30,5 +30,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Install dependencies and run tests
-        run: mvn clean verify
+      - name: Install dependencies
+        run: mvn clean install
+
+      - name: Run Cucumber tests
+        run: mvn test -Dtest=runners.RunnerTest
