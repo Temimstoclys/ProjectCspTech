@@ -1,4 +1,4 @@
-name: TestSpec
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  tests:
+  test-spec:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,21 +20,29 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Instalar Chrome e ChromeDriver
+      - name: Instalar dependências e Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip
-          wget https://storage.googleapis.com/chrome-for-testing-public/114.0.5735.90/linux64/chromedriver-linux64.zip
-          unzip chromedriver-linux64.zip
+          sudo apt-get install -y wget curl unzip xvfb libxi6 libgconf-2-4 default-jdk google-chrome-stable
+
+      - name: Detectar versão do Chrome e baixar ChromeDriver compatível
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          echo "Versão do Chrome: $CHROME_VERSION"
+          DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | \
+            jq -r ".channels.Stable.version")
+          echo "Versão do ChromeDriver: $DRIVER_VERSION"
+          DOWNLOAD_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | \
+            jq -r ".channels.Stable.downloads.chromedriver[] | select(.platform == \"linux64\") | .url")
+          wget $DOWNLOAD_URL -O chromedriver.zip
+          unzip chromedriver.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
-          sudo apt-get install -y google-chrome-stable || true  # Chrome pode já estar instalado
 
-      - name: Verificar versão do Chrome
-        run: google-chrome --version
-
-      - name: Verificar versão do ChromeDriver
-        run: chromedriver --version
+      - name: Verificar versões
+        run: |
+          google-chrome --version
+          chromedriver --version
 
       - name: Executar testes com Maven
         run: mvn clean test -Dbrowser=chrome
