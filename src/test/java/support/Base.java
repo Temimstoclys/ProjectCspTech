@@ -15,6 +15,15 @@ public class Base {
         if (driver == null) {
             String browser = System.getProperty("browser", "chrome").toLowerCase();
             try {
+                String os = System.getProperty("os.name").toLowerCase();
+                String chromedriverPath = "";
+
+                if (os.contains("win")) {
+                    chromedriverPath = "src/test/resources/drivers/chromedriver.exe";
+                } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
+                    chromedriverPath = "/usr/local/bin/chromedriver";
+                }
+
                 switch (browser) {
                     case "firefox":
                         System.setProperty("webdriver.gecko.driver", "resources/drivers/geckodriver.exe");
@@ -28,7 +37,7 @@ public class Base {
 
                     case "chrome":
                     default:
-                        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
+                        System.setProperty("webdriver.chrome.driver", chromedriverPath);
 
                         ChromeOptions options = new ChromeOptions();
                         options.addArguments("--headless");
