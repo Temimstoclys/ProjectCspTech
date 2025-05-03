@@ -40,3 +40,10 @@ jobs:
         with:
           name: cucumber-report-html
           path: target/cucumber-report-html
+
+      - name: Publicar logs de falhas (surefire)
+          if: always()
+          uses: actions/upload-artifact@v4
+          with:
+            name: surefire-reports
+            path: target/surefire-reports
