@@ -1,5 +1,6 @@
 package support;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,29 +16,20 @@ public class Base {
         if (driver == null) {
             String browser = System.getProperty("browser", "chrome").toLowerCase();
             try {
-                String os = System.getProperty("os.name").toLowerCase();
-                String chromedriverPath = "";
-
-                if (os.contains("win")) {
-                    chromedriverPath = "src/test/resources/drivers/chromedriver.exe";
-                } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
-                    chromedriverPath = "/usr/local/bin/chromedriver";
-                }
-
                 switch (browser) {
                     case "firefox":
-                        System.setProperty("webdriver.gecko.driver", "resources/drivers/geckodriver.exe");
+                        WebDriverManager.firefoxdriver().setup(); // Gerencia o geckodriver
                         driver = new FirefoxDriver();
                         break;
 
                     case "edge":
-                        System.setProperty("webdriver.edge.driver", "src/test/resources/drivers/msedgedriver.exe");
+                        WebDriverManager.edgedriver().setup(); // Gerencia o msedgedriver
                         driver = new EdgeDriver();
                         break;
 
                     case "chrome":
                     default:
-                        System.setProperty("webdriver.chrome.driver", chromedriverPath);
+                        WebDriverManager.chromedriver().setup(); // Gerencia o chromedriver
 
                         ChromeOptions options = new ChromeOptions();
                         options.addArguments("--headless");
