@@ -27,12 +27,22 @@ jobs:
 
       - name: Detectar versão do Chrome e baixar ChromeDriver compatível
         run: |
+          # Detectar a versão do Chrome instalada
           CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          echo "Versão do Chrome: $CHROME_VERSION"
-          DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.version")
-          echo "Versão do ChromeDriver: $DRIVER_VERSION"
-          DOWNLOAD_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.downloads.chromedriver[] | select(.platform == \"linux64\") | .url")
-          wget $DOWNLOAD_URL -O chromedriver.zip
+          echo "Versão do Chrome instalada: $CHROME_VERSION"
+
+          # Baixar o ChromeDriver correspondente à versão do Chrome
+          DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.downloads.chromedriver[] | select(.platform == \"linux64\" and .version == \"$CHROME_VERSION\") | .url")
+          
+          if [ -z "$DRIVER_VERSION" ]; then
+            echo "Nenhum ChromeDriver encontrado para a versão $CHROME_VERSION. Atualizando o Chrome para a versão mais recente."
+            sudo apt-get --only-upgrade install google-chrome-stable
+            CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+            DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.downloads.chromedriver[] | select(.platform == \"linux64\" and .version == \"$CHROME_VERSION\") | .url")
+          fi
+
+          echo "Baixando ChromeDriver versão $CHROME_VERSION..."
+          wget $DRIVER_VERSION -O chromedriver.zip
           unzip chromedriver.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
