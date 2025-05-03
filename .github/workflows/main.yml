@@ -32,7 +32,7 @@ jobs:
           echo "Versão do Chrome instalada: $CHROME_VERSION"
 
           # Baixar o ChromeDriver correspondente à versão do Chrome
-          DRIVER_URL="https://chromedriver.storage.googleapis.com/136.0.7103.49/chromedriver_linux64.zip"
+          DRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.49/linux64/chromedriver-linux64.zip"
           echo "Baixando ChromeDriver versão $CHROME_VERSION..."
           wget $DRIVER_URL -O chromedriver.zip
           unzip chromedriver.zip
