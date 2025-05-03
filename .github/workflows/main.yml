@@ -21,10 +21,17 @@ jobs:
           java-version: '17'
 
       - name: Instalar Chrome e ChromeDriver
-        uses: browser-actions/setup-chrome@v1
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget https://storage.googleapis.com/chrome-for-testing-public/114.0.5735.90/linux64/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
+          sudo apt-get install -y google-chrome-stable || true  # Chrome pode já estar instalado
 
       - name: Verificar versão do Chrome
-        run: chrome --version
+        run: google-chrome --version
 
       - name: Verificar versão do ChromeDriver
         run: chromedriver --version
@@ -40,4 +47,3 @@ jobs:
         with:
           name: cucumber-report-html
           path: target/cucumber-report-html
-
