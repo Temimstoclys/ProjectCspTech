@@ -20,17 +20,23 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+      - name: Instalar Chrome e ChromeDriver
+        uses: browser-actions/setup-chrome@v1
 
-      - name: Set CHROMEDRIVER path
-        run: |
-          wget -N https://chromedriver.storage.googleapis.com/122.0.6261.94/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
+      - name: Verificar versão do Chrome
+        run: chrome --version
 
-      - name: Build and Test
+      - name: Verificar versão do ChromeDriver
+        run: chromedriver --version
+
+      - name: Executar testes com Maven
         run: mvn clean test -Dbrowser=chrome
+
+      - name: Gerar relatório HTML do Cucumber
+        run: mvn verify
+
+      - name: Publicar relatório como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report-html
+          path: target/cucumber-report-html
