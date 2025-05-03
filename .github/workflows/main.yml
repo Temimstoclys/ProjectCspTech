@@ -23,7 +23,10 @@ jobs:
       - name: Instalar dependências e Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget curl unzip xvfb libxi6 default-jdk google-chrome-stable
+          sudo apt-get install -y wget curl unzip xvfb libxi6 default-jdk google-chrome-stable chromium-chromedriver
+
+      - name: Verificar versão do Chrome
+        run: google-chrome --version
 
       - name: Detectar versão do Chrome e baixar ChromeDriver compatível
         run: |
@@ -31,8 +34,8 @@ jobs:
           CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
           echo "Versão do Chrome instalada: $CHROME_VERSION"
 
-          # Baixar o ChromeDriver correspondente à versão do Chrome
-          DRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.downloads.chromedriver[] | select(.platform == \"linux64\" and .version == \"$CHROME_VERSION\") | .url")
+          # Baixar o ChromeDriver correspondente à versão do Chrome ou a versão mais recente disponível
+          DRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.downloads.chromedriver[] | select(.platform == \"linux64\") | .url" | head -n 1)
 
           if [ -z "$DRIVER_URL" ]; then
             echo "Nenhum ChromeDriver encontrado para a versão $CHROME_VERSION. Abortando processo."
