@@ -2,6 +2,7 @@ package support;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 
@@ -28,7 +29,14 @@ public class Base {
                     case "chrome":
                     default:
                         System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
-                        driver = new ChromeDriver();
+
+                        ChromeOptions options = new ChromeOptions();
+                        options.addArguments("--headless");
+                        options.addArguments("--disable-gpu");
+                        options.addArguments("--no-sandbox");
+                        options.addArguments("--window-size=1920,1080");
+
+                        driver = new ChromeDriver(options);
                         break;
                 }
 
