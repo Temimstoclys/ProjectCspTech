@@ -20,20 +20,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Instalar dependências e Chrome
+      - name: Instalar dependências
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget curl unzip xvfb libxi6 default-jdk google-chrome-stable
+          sudo apt-get install -y wget curl unzip xvfb libxi6 default-jdk
 
-      - name: Detectar versão do Chrome e baixar ChromeDriver compatível
+      - name: Instalar Chrome 136
         run: |
-          # Detectar a versão do Chrome instalada
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          echo "Versão do Chrome instalada: $CHROME_VERSION"
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
+          google-chrome --version
 
-          # Baixar o ChromeDriver correspondente à versão do Chrome
+      - name: Baixar ChromeDriver 136 compatível
+        run: |
           DRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.49/linux64/chromedriver-linux64.zip"
-          echo "Baixando ChromeDriver versão $CHROME_VERSION..."
           wget $DRIVER_URL -O chromedriver.zip
           unzip chromedriver.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
