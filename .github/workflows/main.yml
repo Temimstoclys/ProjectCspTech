@@ -23,17 +23,15 @@ jobs:
       - name: Instalar dependências e Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget curl unzip xvfb libxi6 libgconf-2-4 default-jdk google-chrome-stable
+          sudo apt-get install -y wget curl unzip xvfb libxi6 default-jdk google-chrome-stable
 
       - name: Detectar versão do Chrome e baixar ChromeDriver compatível
         run: |
           CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
           echo "Versão do Chrome: $CHROME_VERSION"
-          DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | \
-            jq -r ".channels.Stable.version")
+          DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.version")
           echo "Versão do ChromeDriver: $DRIVER_VERSION"
-          DOWNLOAD_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | \
-            jq -r ".channels.Stable.downloads.chromedriver[] | select(.platform == \"linux64\") | .url")
+          DOWNLOAD_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.downloads.chromedriver[] | select(.platform == \"linux64\") | .url")
           wget $DOWNLOAD_URL -O chromedriver.zip
           unzip chromedriver.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
